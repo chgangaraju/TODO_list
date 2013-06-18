@@ -1,0 +1,11 @@
+#bodyBox {
+    width:480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#todoTextInputBox {
+    width:460px;
+    height: 60px;
+    font-family: sans-serif;
+    font-size: 20px;
+}
