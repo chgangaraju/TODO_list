@@ -179,7 +179,12 @@ function createTask(e) {
 }
 
 function checkAllTasks() {
-
+    "use strict"
+    var checkAllBox = document.getElementById('mark-all-checkbox');
+    for(var id in tasks) {
+        tasks[id].isDone = checkAllBox.checked;
+    }
+    tasksReload();
 }
 
 function checkTask(id) {

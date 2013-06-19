@@ -6,24 +6,39 @@
     <link rel="stylesheet" href="css/custom_style.css">
 </head>
 <body onclick="hideEditBoxIfActive();">
-<div class="well" id="bodyBox">
+<div id="bodyBox">
     <div class="row">
         <h1 class="text-center">Todos </h1>
         <hr>
         <br>
     </div>
     <div>
-        <input id="todoTextInputBox" type="text" placeholder="What needs to be done?" onkeyup="createTask(event)">
+        <input id="todoTextInputBox" type="text" placeholder="What needs to be done?" onkeyup="createTask(event);">
     </div>
     <div id="list_tasks_div">
         <div id="tasks_header">
-
+            <input type="checkbox" id="mark-all-checkbox" onclick="checkAllTasks();">
+            <label id="mark-all-label"> Mark all as complete</label>
         </div>
         <div id="tasks_body">
 
         </div>
         <div id="tasks_footer">
-
+             <div id="tasks_left">
+                 <label id="tasks_left_label">
+                     <strong>0</strong>
+                 </label>
+                 <label>
+                     items left
+                 </label>
+             </div>
+            <div id="tasks_remaining">
+                  <button onclick="clearCompletedItems();" id="clear_all_button">
+                      Clear All Completed
+                      <label id="completed_items_label">0</label>
+                       tasks
+                  </button>
+            </div>
         </div>
     </div>
 </div>
