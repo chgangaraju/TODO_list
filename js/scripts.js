@@ -86,9 +86,16 @@ function taskMouseOut(id) {
 
 function checkTask(id) {
     "use strict"
-    tasks[id].isDone = true;
-    var taskLabel = document.getElementById('task_label_' + id);
-    taskLabel.className =  "task_label completed_task";
+    var checkBox = document.getElementById('task_checkbox_' + id),
+        taskLabel = document.getElementById('task_label_' + id);
+    if(checkBox.checked == true) {
+        tasks[id].isDone = true;
+        taskLabel.className =  "task_label completed_task";
+    } else {
+        tasks[id].isDone = false;
+        taskLabel.className =  "task_label";
+    }
+
 }
 
 // delete task from the list
