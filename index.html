@@ -2,18 +2,17 @@
 <html>
 <head>
     <title>Welcome to the TODO's</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/custom_style.css">
 </head>
 <body onclick="hideEditBoxIfActive();">
-<div id="bodyBox" class="well">
-    <div class="row">
-        <h1 class="text-center">Todos </h1>
+<div id="bodyBox">
+    <div>
+        <h1 class="text-centered">Todos </h1>
         <hr>
         <br>
     </div>
-    <div>
-        <input id="todoTextInputBox" type="text" placeholder="What needs to be done?" onkeyup="createTask(event);">
+    <div class="centered span10">
+        <input id="todoTextInputBox" class="centered" type="text" placeholder="What needs to be done?" onkeyup="createTask(event);">
     </div>
     <div id="list_tasks_div">
         <div id="tasks_header">

@@ -1,7 +1,54 @@
-#bodyBox {
-    width:480px;
+body {
+    background: #f5f5f5;
+    font-family: monospace;
+}
+input[type=text] {
+    padding-left: 2px;
+    font-family: Arial;
+    font-size: 14px;
+    border-radius: 2px;
+    border: 1px solid #999999;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
+}
+h1 {
+    color: inherit;
+    font-size: 45px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 0;
+}
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #ffffff;
+}
+
+.centered {
     margin-left: auto;
     margin-right: auto;
+}
+.text-centered {
+    text-align: center;
+}
+.span10 {
+    width: 480px;
+}
+
+#bodyBox {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 1px 1px 1px 1px lightgray;
+    border-radius: 0 0 5px 5px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+}
+#bodyBox:hover {
+    box-shadow: 2px 2px 2px 2px lightgray;
 }
 #todoTextInputBox {
     width:460px;
@@ -9,25 +56,29 @@
     font-family: sans-serif;
     font-size: 30px;
     text-shadow: lightgray;
+    padding:6px;
 }
 #list_tasks_div {
-    width:460px;
     font-family: sans-serif;
     font-size: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 460px;
 }
 #tasks_header {
+    background-color: lightyellow;
     width:450px;
     margin-top: -6px;
     padding-bottom: 40px;
 }
 #mark-all-label {
-    width:410px;
-    float:left;
-    font-family: fantasy;
-    font-size: 20px;
+    float: left;
+    font-family: 'Lucida Grande';
+    font-size: 15px;
+    margin-bottom: 4px;
     margin-left: 8px;
     margin-top: 4px;
-    margin-bottom: 4px;
+    width: 410px;
 }
 #mark-all-checkbox {
     width:20px;
@@ -39,11 +90,14 @@
     margin-right: 4px;
 }
 #tasks_body {
-
+     width:100%;
 }
 #tasks_footer {
-    width: 450px;
-    background-color: lightgoldenrodyellow;
+    width: 100%;
+    background: none repeat scroll 0 0 lightyellow;
+    margin-top: 10px;
+    display: inline-block;
+    padding: 4px;
 }
 
 #clear_all_button {
@@ -61,7 +115,6 @@
     font-family:Arial;
     font-size:11px;
     font-weight:normal;
-    margin-right: -30px;
     padding: 3px 12px;
 }
 #clear_all_button:hover {
@@ -80,22 +133,27 @@
     color: red;
 }
 #tasks_left {
+    display: inline;
     float: left;
+    font-size: 14px;
     margin-left: 10px;
     width: 90px;
-    display: inline;
 }
 #tasks_left_label {
     float: left;
     width: 20px;
 }
 .task {
-    border-bottom: lightgray outset thin;
+    border-bottom: 1px solid #CCCCCC;
     width:450px;
     padding-bottom: 10px;
     padding-left: 4px;
     padding-right: 4px;
     padding-top:10px;
+    background-color: #f5f5f5;
+}
+.task:hover {
+    background-color: white;
 }
 
 .task_label {
