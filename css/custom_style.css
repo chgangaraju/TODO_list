@@ -7,7 +7,7 @@
     width:460px;
     height: 60px;
     font-family: sans-serif;
-    font-size: 20px;
+    font-size: 30px;
 }
 #list_tasks_div {
     width:460px;
@@ -50,4 +50,17 @@
 .completed_task {
     font-style: italic;
     text-decoration: line-through;
+}
+.task_edit_textbox {
+    width:440px;
+    font-family: sans-serif;
+    font-size: 24px;
+    height: 40px;
+}
+.task_container {
+   width: 440px;
+}
+.task_editbox {
+    width:440px;
+    display:none;
 }
