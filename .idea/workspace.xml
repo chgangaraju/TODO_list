@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a625656-8372-4308-be03-5ecbb31b236a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/custom_style.css" afterPath="$PROJECT_DIR$/css/custom_style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/scripts.js" afterPath="$PROJECT_DIR$/js/scripts.js" />
     </list>
     <ignored path="TODO_List.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/index.html" changelist="5a625656-8372-4308-be03-5ecbb31b236a" time="1371647473017" ignored="false" />
+    <file path="/index.html" changelist="5a625656-8372-4308-be03-5ecbb31b236a" time="1371650251498" ignored="false" />
     <file path="/custom_style.css" changelist="5a625656-8372-4308-be03-5ecbb31b236a" time="1371649958728" ignored="false" />
     <file path="/scripts.js" changelist="5a625656-8372-4308-be03-5ecbb31b236a" time="1371644782584" ignored="false" />
     <file path="/Dummy.txt" changelist="5a625656-8372-4308-be03-5ecbb31b236a" time="1371615572860" ignored="false" />
@@ -36,10 +34,10 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="52" selection-start="75" selection-end="123" vertical-scroll-proportion="0.073081605">
+            <state line="24" column="25" selection-start="777" selection-end="777" vertical-scroll-proportion="0.43848965">
               <folding>
-                <marker date="1371650192414" expanded="true" signature="1346:1367" placeholder="&lt;xml/&gt;" />
-                <marker date="1371650192414" expanded="true" signature="1379:1400" placeholder="&lt;xml/&gt;" />
+                <marker date="1371650253230" expanded="true" signature="1359:1380" placeholder="&lt;xml/&gt;" />
+                <marker date="1371650253230" expanded="true" signature="1392:1413" placeholder="&lt;xml/&gt;" />
               </folding>
             </state>
           </provider>
@@ -317,8 +315,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1371650192414" expanded="true" signature="1346:1367" placeholder="&lt;xml/&gt;" />
-            <marker date="1371650192414" expanded="true" signature="1379:1400" placeholder="&lt;xml/&gt;" />
+            <marker date="1371650253230" expanded="true" signature="1359:1380" placeholder="&lt;xml/&gt;" />
+            <marker date="1371650253230" expanded="true" signature="1392:1413" placeholder="&lt;xml/&gt;" />
           </folding>
         </state>
       </provider>
@@ -364,10 +362,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="52" selection-start="75" selection-end="123" vertical-scroll-proportion="0.073081605">
+        <state line="24" column="25" selection-start="777" selection-end="777" vertical-scroll-proportion="0.43848965">
           <folding>
-            <marker date="1371650192414" expanded="true" signature="1346:1367" placeholder="&lt;xml/&gt;" />
-            <marker date="1371650192414" expanded="true" signature="1379:1400" placeholder="&lt;xml/&gt;" />
+            <marker date="1371650253230" expanded="true" signature="1359:1380" placeholder="&lt;xml/&gt;" />
+            <marker date="1371650253230" expanded="true" signature="1392:1413" placeholder="&lt;xml/&gt;" />
           </folding>
         </state>
       </provider>
