@@ -14,6 +14,7 @@ var activeEditBox = {
 };
 
 function hideEditBoxIfActive() {
+    "use strict"
     if (activeEditBox.isActive) {
         updateTask(activeEditBox.id);
         hideEditBox(activeEditBox.id);
@@ -21,10 +22,12 @@ function hideEditBoxIfActive() {
 }
 
 /**
+ * -------------------------------------------------------
  *  CREATION OF CHECKBOX, LABEL, CLEAR BUTTON AND EDIT BOX
  *  ------------------------------------------------------
  */
 function createNewDivContainer(id) {
+    "use strict"
     var taskObj = tasks[id],
         newLabel = createNewLabel(id, taskObj.isDone, taskObj.task),
         newCheckBox = createNewCheckBox(id, taskObj.isDone),
@@ -45,6 +48,7 @@ function createNewDivContainer(id) {
     return newDivContainer;
 }
 function createNewEditDiv(id) {
+    "use strict"
     var editTextBox = createNewEditBox(id),
         newDivEditBox = document.createElement("div");
 
@@ -71,6 +75,7 @@ function createNewCheckBox(id, checked) {
     return newCheckBox;
 }
 function createNewLabel(id, isDone, taskData) {
+    "use strict"
     var newLabel = document.createElement("label");
     newLabel.innerHTML = taskData;
     newLabel.id = "task_label_" + id;
@@ -101,7 +106,7 @@ function createNewEditBox(id) {
     newTextBox.value = tasks[id].task;
 
     newTextBox.onkeyup = function (e) {
-        if (e.keyCode != 13) {
+        if ((this.value.length < 1) ||e.keyCode != 13) {
             return;
         }
         updateTask(id);
@@ -124,6 +129,7 @@ function getlistTasksFooter() {
 }
 
 /**
+ * --------------------------------------------------------
  * HIDING AND UN HIDING CLEAR TASK BUTTON ON MOUSE EVENTS
  * -------------------------------------------------------
  */
@@ -143,6 +149,7 @@ function taskMouseOut(id) {
 
 //display edit box
 function displayEditBox(id) {
+    "use strict"
     var divTaskContainer = document.getElementById('task_container_' + id),
         divEditBox = document.getElementById('task_editbox_' + id);
     divTaskContainer.style.display = "none";
@@ -152,6 +159,7 @@ function displayEditBox(id) {
 }
 //hide editBox
 function hideEditBox(id) {
+    "use strict"
     var divTaskContainer = document.getElementById('task_container_' + id),
         divEditBox = document.getElementById('task_editbox_' + id);
     divTaskContainer.style.display = "block";
@@ -165,10 +173,10 @@ function hideEditBox(id) {
 
 function createTask(e) {
     "use strict"
-    if (e.keyCode != 13) {
+    var inputBox = document.getElementById("todoTextInputBox");
+    if ( (inputBox.value.length) < 1 ||e.keyCode != 13) {
         return;
     }
-    var inputBox = document.getElementById("todoTextInputBox");
     var taskObject = {
         isDone: false,
         task: inputBox.value
@@ -176,6 +184,9 @@ function createTask(e) {
     tasks.push(taskObject);
     displayTask(tasks.length - 1);
     inputBox.value = "";
+    incrementTaskLeftCounter();
+    hideAndUnhideTaskHeaderFooter(false);
+    checkAndMarkAllTasks();
 }
 
 function checkAllTasks() {
@@ -186,21 +197,43 @@ function checkAllTasks() {
     }
     tasksReload();
 }
+function checkAndMarkAllTasks() {
+    "use strict"
+    var checkAllBox = document.getElementById('mark-all-checkbox');
+    for(var id in tasks) {
+        if(!tasks[id].isDone) {
+            checkAllBox.checked = false;
+            return;
+        }
+    }
+    checkAllBox.checked = true;
+}
 
 function checkTask(id) {
     "use strict"
     var checkBox = document.getElementById('task_checkbox_' + id),
-        taskLabel = document.getElementById('task_label_' + id);
+        taskLabel = document.getElementById('task_label_' + id),
+        checkAllBox = document.getElementById('mark-all-checkbox');
     if (checkBox.checked == true) {
         tasks[id].isDone = true;
         taskLabel.className = "task_label completed_task";
+        checkAndMarkAllTasks();
+        // updating counters
+        incrementTaskCompletedCounter();
+        decrementTaskLeftCounter();
     } else {
         tasks[id].isDone = false;
         taskLabel.className = "task_label";
+        //simply un checking mark all button
+        checkAllBox.checked = false;
+        // updating counters
+        incrementTaskLeftCounter();
+        decrementTaskCompletedCounter();
     }
 }
 
 function updateTask(id) {
+    "use strict"
     var editInputBox = document.getElementById('task_edit_textbox_' + id),
         taskLabel = document.getElementById('task_label_' + id),
         newValue = editInputBox.value;
@@ -214,6 +247,80 @@ function clearTask(id) {
     tasks.splice(id, 1);
     tasksReload();
 }
+function clearAllCompletedItems() {
+    "use strict"
+    var length = tasks.length;
+    for(var i = 0; i < length; i++) {
+        if(tasks[i].isDone) {
+            // removing task from the array
+            tasks.splice(i,1);
+            // adjusting changing indexes
+            i--;
+            length--;
+        }
+    }
+    tasksReload();
+}
+
+/**
+ * ----------------------------------------------
+ * UPDATING HEADER AND FOOTER VALUES
+ * ----------------------------------------------
+ */
+function hideAndUnhideTaskHeaderFooter(hidden) {
+    "use strict"
+    var tasksFooterDiv = document.getElementById("tasks_footer"),
+        tasksHeader = document.getElementById("tasks_header");
+    if(hidden) {
+        // hiding header and footer
+        tasksHeader.style.visibility = "hidden";
+        tasksFooterDiv.style.visibility = "hidden";
+    } else {
+        // displaying header and footer
+        tasksHeader.style.visibility = "visible";
+        tasksFooterDiv.style.visibility = "visible";
+    }
+}
+function checkAndHideHeaderAndFooter() {
+    "use strict"
+    if(tasks.length < 1) {
+        hideAndUnhideTaskHeaderFooter(true);
+    }
+}
+function incrementTaskLeftCounter() {
+    "use strict"
+    var tasksLeftLabel = document.getElementById("tasks_left_label");
+
+    var prevValue = Number(tasksLeftLabel.innerHTML);
+    tasksLeftLabel.innerHTML = (prevValue + 1).toString();
+}
+function decrementTaskLeftCounter() {
+    "use strict"
+    var tasksLeftLabel = document.getElementById("tasks_left_label"),
+        prevValue = Number(tasksLeftLabel.innerHTML);
+    tasksLeftLabel.innerHTML = (prevValue - 1).toString();
+}
+
+function incrementTaskCompletedCounter() {
+    "use strict"
+    var tasksCompletedLabel = document.getElementById("completed_items_label"),
+        tasksClearDiv = document.getElementById("tasks_remaining"),
+        prevValue = Number(tasksCompletedLabel.innerHTML);
+    tasksCompletedLabel.innerHTML = (prevValue + 1).toString();
+    // simply displaying clear all div, there is no checking needed
+    tasksClearDiv.style.visibility = "visible";
+}
+function decrementTaskCompletedCounter() {
+    "use strict"
+    var tasksCompletedLabel = document.getElementById("completed_items_label"),
+        tasksClearDiv = document.getElementById("tasks_remaining"),
+        newValue = Number(tasksCompletedLabel.innerHTML) - 1;
+    tasksCompletedLabel.innerHTML = newValue.toString();
+    // Hiding clear all div if no checked tasks
+    if(newValue < 1) {
+        tasksClearDiv.style.visibility = "hidden";
+    }
+}
 
 
 /**
@@ -223,12 +330,26 @@ function clearTask(id) {
  */
 function tasksReload() {
     "use strict"
-    var tasks_body = document.getElementById("tasks_body");
+    var tasks_body = document.getElementById("tasks_body"),
+        tasksLeftLabel = document.getElementById("tasks_left_label"),
+        tasksClearDiv = document.getElementById("tasks_remaining"),
+        tasksCompletedLabel = document.getElementById("completed_items_label");
     // clearing output
     tasks_body.innerHTML = "";
+    tasksClearDiv.style.visibility = "hidden";
+    checkAndMarkAllTasks();
+    // initially i assuming that all tasks left i.e no tasks completed
+    tasksLeftLabel.innerHTML = (tasks.length).toString();
+    tasksCompletedLabel.innerHTML = "0";
     for (var id in tasks) {
         displayTask(id);
+        if(tasks[id].isDone) {
+            incrementTaskCompletedCounter();
+            decrementTaskLeftCounter();
+        }
+
     }
+    checkAndHideHeaderAndFooter();
 }
 
 function displayTask(id) {

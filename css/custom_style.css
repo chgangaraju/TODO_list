@@ -67,6 +67,7 @@ hr {
     width: 460px;
 }
 #tasks_header {
+    visibility: hidden;
     background-color: lightyellow;
     width:450px;
     margin-top: -6px;
@@ -94,11 +95,18 @@ hr {
      width:100%;
 }
 #tasks_footer {
+    visibility: hidden;
     width: 100%;
     background: none repeat scroll 0 0 lightyellow;
     margin-top: 10px;
     display: inline-block;
     padding: 4px;
+}
+
+#tasks_left_label {
+    font-weight: bolder;
+    color: green;
+    text-shadow: lightgray;
 }
 
 #clear_all_button {
@@ -143,6 +151,9 @@ hr {
 #tasks_left_label {
     float: left;
     width: 20px;
+}
+#tasks_remaining {
+    visibility: hidden;
 }
 .task {
     border-bottom: 1px solid #CCCCCC;
