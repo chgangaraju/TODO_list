@@ -83,11 +83,11 @@ hr {
 }
 /* ============ TASKS HEADER ========================*/
 #tasks_header {
-    visibility: hidden;
+    display: none;
     background-color: lightyellow;
-    width:450px;
+    width:100%;
     margin-top: -6px;
-    padding-bottom: 40px;
+    padding-bottom: 4px;
 }
 #mark-all-label {
     float: left;
@@ -160,15 +160,12 @@ hr {
 
 /* =============== TASKS FOOTER =======================*/
 #tasks_footer {
-    visibility: hidden;
+    display:none;
     width: 100%;
     background: none repeat scroll 0 0 lightyellow;
     margin-top: 10px;
-    display: inline-block;
-    padding: 4px;
 }
 #tasks_left {
-    display: inline;
     float: left;
     font-size: 14px;
     margin-left: 10px;
@@ -194,7 +191,6 @@ hr {
     -webkit-border-radius:20px;
     border-radius:20px;
     border:1px solid #dcdcdc;
-    display:inline-block;
     color:#777777;
     float: right;
     font-family:Arial;
@@ -214,6 +210,15 @@ hr {
   }
 #completed_items_label {
     font-weight: bolder;
-    display: inline;
+    /*display: inline;*/
     color: red;
+}
+
+#info-label {
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 100;
+    text-align: center;
+    width: 100%;
 }

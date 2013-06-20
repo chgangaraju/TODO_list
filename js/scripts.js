@@ -286,12 +286,12 @@ function hideAndUnhideTaskHeaderFooter(hidden) {
         tasksHeader = document.getElementById("tasks_header");
     if(hidden) {
         // hiding header and footer
-        tasksHeader.style.visibility = "hidden";
-        tasksFooterDiv.style.visibility = "hidden";
+        tasksHeader.style.display = "none";
+        tasksFooterDiv.style.display = "none";
     } else {
         // displaying header and footer
-        tasksHeader.style.visibility = "visible";
-        tasksFooterDiv.style.visibility = "visible";
+        tasksHeader.style.display = "inline-block";
+        tasksFooterDiv.style.display = "inline-block";
     }
 }
 function checkAndHideHeaderAndFooter() {
