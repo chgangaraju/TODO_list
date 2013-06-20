@@ -13,13 +13,6 @@ var activeEditBox = {
     id: 0
 };
 
-function hideEditBoxIfActive() {
-    "use strict"
-    if (activeEditBox.isActive) {
-        updateTask(activeEditBox.id);
-        hideEditBox(activeEditBox.id);
-    }
-}
 
 /**
  * -------------------------------------------------------
@@ -106,7 +99,14 @@ function createNewEditBox(id) {
     newTextBox.value = tasks[id].task;
 
     newTextBox.onkeyup = function (e) {
-        if ((this.value.length < 1) ||e.keyCode != 13) {
+        if(( this.value.length < 1) ) {
+            // disabling events for empty text box
+            activeEditBox.isActive = false;
+            return;
+        } else {
+            activeEditBox.isActive = true;
+        }
+        if (e.keyCode != 13) {
             return;
         }
         updateTask(id);
@@ -146,6 +146,19 @@ function taskMouseOut(id) {
     taskButton.style.visibility = "hidden";
 }
 
+/**
+ * --------------------------------------
+ * Hiding and displaying edit boxes
+ * ---------------------------------------
+ */
+
+function hideEditBoxIfActive() {
+    "use strict"
+    if (activeEditBox.isActive) {
+        updateTask(activeEditBox.id);
+        hideEditBox(activeEditBox.id);
+    }
+}
 
 //display edit box
 function displayEditBox(id) {
@@ -263,9 +276,9 @@ function clearAllCompletedItems() {
 }
 
 /**
- * ----------------------------------------------
- * UPDATING HEADER AND FOOTER VALUES
- * ----------------------------------------------
+ * ------------------------------------------------------
+ * UPDATING AND HIDE, UN HIDE HEADER AND FOOTER VALUES
+ * ------------------------------------------------------
  */
 function hideAndUnhideTaskHeaderFooter(hidden) {
     "use strict"
@@ -361,7 +374,6 @@ function displayTask(id) {
 
     newDiv.className = "task";
     newDiv.id = "task_" + id;
-
 
     newDiv.appendChild(newDivContainer);
     newDiv.appendChild(newDivEditBox);

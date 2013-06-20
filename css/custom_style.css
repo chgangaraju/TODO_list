@@ -1,3 +1,8 @@
+/**
+-------------------------------------------------------
+STYLES FOR BASIC HTML TAGS
+---------------------------------------------------
+*/
 body {
     background: #f5f5f5;
     font-family: monospace;
@@ -35,6 +40,10 @@ hr {
 .span10 {
     width: 480px;
 }
+/*  -------------------------------
+            MAIN BODY
+    ------------------------------
+*/
 
 #bodyBox {
     background: none repeat scroll 0 0 #FFFFFF;
@@ -59,6 +68,12 @@ hr {
     padding:6px;
 }
 
+/*
+========================================================
+                LIST TASKS DIV
+=========================================================
+*/
+
 #list_tasks_div {
     font-family: sans-serif;
     font-size: 20px;
@@ -66,6 +81,7 @@ hr {
     padding: 10px;
     width: 460px;
 }
+/* ============ TASKS HEADER ========================*/
 #tasks_header {
     visibility: hidden;
     background-color: lightyellow;
@@ -91,69 +107,10 @@ hr {
     margin-bottom: 4px;
     margin-right: 4px;
 }
+
+/* =============== TASKS BODY =========================*/
 #tasks_body {
      width:100%;
-}
-#tasks_footer {
-    visibility: hidden;
-    width: 100%;
-    background: none repeat scroll 0 0 lightyellow;
-    margin-top: 10px;
-    display: inline-block;
-    padding: 4px;
-}
-
-#tasks_left_label {
-    font-weight: bolder;
-    color: green;
-    text-shadow: lightgray;
-}
-
-#clear_all_button {
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-    background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-    background-color:#ededed;
-    -moz-border-radius:20px;
-    -webkit-border-radius:20px;
-    border-radius:20px;
-    border:1px solid #dcdcdc;
-    display:inline-block;
-    color:#777777;
-    float: right;
-    font-family:Arial;
-    font-size:11px;
-    font-weight:normal;
-    padding: 3px 12px;
-}
-#clear_all_button:hover {
-     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-     background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-     background-color:#dfdfdf;
- }
-#clear_all_button:active {
-      position:relative;
-      top:1px;
-  }
-#completed_items_label {
-    font-weight: bolder;
-    display: inline;
-    color: red;
-}
-#tasks_left {
-    display: inline;
-    float: left;
-    font-size: 14px;
-    margin-left: 10px;
-    width: 90px;
-}
-#tasks_left_label {
-    float: left;
-    width: 20px;
-}
-#tasks_remaining {
-    visibility: hidden;
 }
 .task {
     border-bottom: 1px solid #CCCCCC;
@@ -194,9 +151,69 @@ hr {
     height: 40px;
 }
 .task_container {
-   width: 440px;
+    width: 440px;
 }
 .task_editbox {
     width:440px;
     display:none;
+}
+
+/* =============== TASKS FOOTER =======================*/
+#tasks_footer {
+    visibility: hidden;
+    width: 100%;
+    background: none repeat scroll 0 0 lightyellow;
+    margin-top: 10px;
+    display: inline-block;
+    padding: 4px;
+}
+#tasks_left {
+    display: inline;
+    float: left;
+    font-size: 14px;
+    margin-left: 10px;
+    width: 90px;
+}
+#tasks_left_label {
+    float: left;
+    width: 20px;
+    font-weight: bolder;
+    color: green;
+    text-shadow: lightgray;
+}
+
+#tasks_remaining {
+    visibility: hidden;
+}
+#clear_all_button {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+    background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+    background-color:#ededed;
+    -moz-border-radius:20px;
+    -webkit-border-radius:20px;
+    border-radius:20px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    float: right;
+    font-family:Arial;
+    font-size:11px;
+    font-weight:normal;
+    padding: 3px 12px;
+}
+#clear_all_button:hover {
+     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+     background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+     background-color:#dfdfdf;
+ }
+#clear_all_button:active {
+      position:relative;
+      top:1px;
+  }
+#completed_items_label {
+    font-weight: bolder;
+    display: inline;
+    color: red;
 }
