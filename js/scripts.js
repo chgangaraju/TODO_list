@@ -22,84 +22,80 @@ var activeEditBox = {
 function createNewDivContainer(id) {
     "use strict"
     var taskObj = tasks[id],
-        newLabel = createNewLabel(id, taskObj.isDone, taskObj.task),
-        newCheckBox = createNewCheckBox(id, taskObj.isDone),
+        label = createNewLabel(id, taskObj.isDone, taskObj.task),
+        checkBox = createNewCheckBox(id, taskObj.isDone),
         button = createNewClearButton(id),
-        newDivContainer = document.createElement("div");
+        taskContainer = document.createElement("div");
 
-    newDivContainer.id = "task_container_" + id;
-    newDivContainer.className = "task_container";
-    newDivContainer.appendChild(newCheckBox);
-    newDivContainer.appendChild(newLabel);
-    newDivContainer.appendChild(button);
-    newDivContainer.onmouseover = function () {
+    taskContainer.id = "task_container_" + id;
+    taskContainer.className = "task_container";
+    taskContainer.appendChild(checkBox);
+    taskContainer.appendChild(label);
+    taskContainer.appendChild(button);
+    taskContainer.onmouseover = function () {
         taskMouseOver(id);
     }
-    newDivContainer.onmouseout = function () {
+    taskContainer.onmouseout = function () {
         taskMouseOut(id);
     }
-    return newDivContainer;
+    return taskContainer;
 }
 function createNewEditDiv(id) {
     "use strict"
     var editTextBox = createNewEditBox(id),
-        newDivEditBox = document.createElement("div");
+        editContainer = document.createElement("div");
 
-    newDivEditBox.id = "task_editbox_" + id;
-    newDivEditBox.className = "task_editbox";
-    newDivEditBox.appendChild(editTextBox);
+    editContainer.id = "task_editbox_" + id;
+    editContainer.className = "task_editbox";
+    editContainer.appendChild(editTextBox);
 
-    return newDivEditBox;
+    return editContainer;
 }
 function createNewCheckBox(id, checked) {
     "use strict"
-    var newCheckBox = document.createElement("input");
-    newCheckBox.type = "checkbox";
-    newCheckBox.id = "task_checkbox_" + id;
-    newCheckBox.className = "task_checkbox";
-    newCheckBox.checked = checked;
-    newCheckBox.style.width = "20px";
-    newCheckBox.style.borderRadius = "4px";
-    newCheckBox.style.height = "20px";
-    newCheckBox.style.margin = "4px 4px 4px 4px";
-    newCheckBox.onclick = function () {
+    var checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.id = "task_checkbox_" + id;
+    checkBox.className = "task_checkbox";
+    checkBox.checked = checked;
+    checkBox.onclick = function () {
         checkTask(id);
     }
-    return newCheckBox;
+    return checkBox;
 }
 function createNewLabel(id, isDone, taskData) {
     "use strict"
-    var newLabel = document.createElement("label");
-    newLabel.innerHTML = taskData;
-    newLabel.id = "task_label_" + id;
+    var label = document.createElement("label");
+    label.innerHTML = taskData;
+    label.id = "task_label_" + id;
 
     if (isDone) {
-        newLabel.className = "task_label completed_task";
+        label.className = "task_label completed_task";
     } else {
-        newLabel.className = "task_label";
+        label.className = "task_label";
     }
-    return newLabel;
+    return label;
 }
 function createNewClearButton(id) {
     "use strict"
-    var newButton = document.createElement("a");
-    newButton.href = "javascript:clearTask(" + id + ")";
-    newButton.className = "task_button";
-    newButton.id = "task_button_" + id;
-    newButton.innerHTML = "<img src='img/icon_delete.gif'> ";
-    newButton.style.visibility = "hidden";
-    return newButton;
+    var button = document.createElement("a");
+    button.href = "javascript:clearTask(" + id + ")";
+    button.className = "task_button";
+    button.id = "task_button_" + id;
+    button.innerHTML = "<img src='img/icon_delete.gif'> ";
+    button.style.visibility = "hidden";
+    return button;
 }
 function createNewEditBox(id) {
     "use strict"
-    var newTextBox = document.createElement("input");
-    newTextBox.type = "text";
-    newTextBox.className = "task_edit_textbox";
-    newTextBox.id = "task_edit_textbox_" + id;
-    newTextBox.value = tasks[id].task;
+    var textBox = document.createElement("input");
+    textBox.type = "text";
+    textBox.className = "task_edit_textbox";
+    textBox.id = "task_edit_textbox_" + id;
+    textBox.value = tasks[id].task;
 
-    newTextBox.onkeyup = function (e) {
-        if(( this.value.length < 1) ) {
+    textBox.onkeyup = function (e) {
+        if (( this.value.length < 1)) {
             // disabling events for empty text box
             activeEditBox.isActive = false;
             return;
@@ -113,20 +109,12 @@ function createNewEditBox(id) {
         hideEditBox(id);
     }
     // stop hiding edit box when click inside text box
-    newTextBox.onclick = function (e) {
+    textBox.onclick = function (e) {
         e.stopPropagation();
     }
-    return newTextBox;
+    return textBox;
 }
 
-function getMarkAllButton() {
-    "use strict"
-    return "";
-}
-function getlistTasksFooter() {
-    "use strict"
-    return "";
-}
 
 /**
  * --------------------------------------------------------
@@ -187,7 +175,7 @@ function hideEditBox(id) {
 function createTask(e) {
     "use strict"
     var inputBox = document.getElementById("todoTextInputBox");
-    if ( (inputBox.value.length) < 1 ||e.keyCode != 13) {
+    if ((inputBox.value.length) < 1 || e.keyCode != 13) {
         return;
     }
     var taskObject = {
@@ -205,7 +193,7 @@ function createTask(e) {
 function checkAllTasks() {
     "use strict"
     var checkAllBox = document.getElementById('mark-all-checkbox');
-    for(var id in tasks) {
+    for (var id in tasks) {
         tasks[id].isDone = checkAllBox.checked;
     }
     tasksReload();
@@ -213,8 +201,8 @@ function checkAllTasks() {
 function checkAndMarkAllTasks() {
     "use strict"
     var checkAllBox = document.getElementById('mark-all-checkbox');
-    for(var id in tasks) {
-        if(!tasks[id].isDone) {
+    for (var id in tasks) {
+        if (!tasks[id].isDone) {
             checkAllBox.checked = false;
             return;
         }
@@ -263,10 +251,10 @@ function clearTask(id) {
 function clearAllCompletedItems() {
     "use strict"
     var length = tasks.length;
-    for(var i = 0; i < length; i++) {
-        if(tasks[i].isDone) {
+    for (var i = 0; i < length; i++) {
+        if (tasks[i].isDone) {
             // removing task from the array
-            tasks.splice(i,1);
+            tasks.splice(i, 1);
             // adjusting changing indexes
             i--;
             length--;
@@ -284,7 +272,7 @@ function hideAndUnhideTaskHeaderFooter(hidden) {
     "use strict"
     var tasksFooterDiv = document.getElementById("tasks_footer"),
         tasksHeader = document.getElementById("tasks_header");
-    if(hidden) {
+    if (hidden) {
         // hiding header and footer
         tasksHeader.style.display = "none";
         tasksFooterDiv.style.display = "none";
@@ -296,7 +284,7 @@ function hideAndUnhideTaskHeaderFooter(hidden) {
 }
 function checkAndHideHeaderAndFooter() {
     "use strict"
-    if(tasks.length < 1) {
+    if (tasks.length < 1) {
         hideAndUnhideTaskHeaderFooter(true);
     }
 }
@@ -330,7 +318,7 @@ function decrementTaskCompletedCounter() {
         newValue = Number(tasksCompletedLabel.innerHTML) - 1;
     tasksCompletedLabel.innerHTML = newValue.toString();
     // Hiding clear all div if no checked tasks
-    if(newValue < 1) {
+    if (newValue < 1) {
         tasksClearDiv.style.visibility = "hidden";
     }
 }
@@ -356,7 +344,7 @@ function tasksReload() {
     tasksCompletedLabel.innerHTML = "0";
     for (var id in tasks) {
         displayTask(id);
-        if(tasks[id].isDone) {
+        if (tasks[id].isDone) {
             incrementTaskCompletedCounter();
             decrementTaskLeftCounter();
         }
@@ -367,18 +355,18 @@ function tasksReload() {
 
 function displayTask(id) {
     "use strict"
-    var tasks_body = document.getElementById("tasks_body"),
-        newDiv = document.createElement("div"),
-        newDivContainer = createNewDivContainer(id),
-        newDivEditBox = createNewEditDiv(id);
+    var tasksBody = document.getElementById("tasks_body"),
+        taskDiv = document.createElement("div"),
+        taskContainer = createNewDivContainer(id),
+        taskEditContainer = createNewEditDiv(id);
 
-    newDiv.className = "task";
-    newDiv.id = "task_" + id;
+    taskDiv.className = "task";
+    taskDiv.id = "task_" + id;
 
-    newDiv.appendChild(newDivContainer);
-    newDiv.appendChild(newDivEditBox);
-    newDiv.ondblclick = function () {
+    taskDiv.appendChild(taskContainer);
+    taskDiv.appendChild(taskEditContainer);
+    taskDiv.ondblclick = function () {
         displayEditBox(id);
     }
-    tasks_body.appendChild(newDiv);
+    tasksBody.appendChild(taskDiv);
 }

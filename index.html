@@ -12,7 +12,8 @@
         <br>
     </div>
     <div class="centered span10">
-        <input id="todoTextInputBox" class="centered" type="text" placeholder="What needs to be done?" onkeyup="createTask(event);">
+        <input id="todoTextInputBox" class="centered" type="text" placeholder="What needs to be done?"
+               onkeyup="createTask(event);">
     </div>
     <div id="list_tasks_div">
         <div id="tasks_header">
@@ -23,20 +24,20 @@
 
         </div>
         <div id="tasks_footer">
-             <div id="tasks_left">
-                 <label id="tasks_left_label">
-                     0
-                 </label>
-                 <label>
-                     items left
-                 </label>
-             </div>
+            <div id="tasks_left">
+                <label id="tasks_left_label">
+                    0
+                </label>
+                <label>
+                    items left
+                </label>
+            </div>
             <div id="tasks_remaining">
-                  <button onclick="clearAllCompletedItems();" id="clear_all_button">
-                      Clear All Completed
-                      <label id="completed_items_label">0</label>
-                       tasks
-                  </button>
+                <button onclick="clearAllCompletedItems();" id="clear_all_button">
+                    Clear All Completed
+                    <label id="completed_items_label">0</label>
+                    tasks
+                </button>
             </div>
         </div>
     </div>
