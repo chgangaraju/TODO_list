@@ -140,6 +140,10 @@ function displayTask(id) {
     taskDiv.className = "task";
     taskDiv.id = "task_" + id;
 
+    taskDiv.onmousedown = OnMouseDown;
+    taskDiv.onmouseup = OnMouseUp;
+    taskDiv.onmouseover = reOrderTasks;
+
     taskDiv.appendChild(taskContainer);
     taskDiv.appendChild(taskEditContainer);
     taskDiv.ondblclick = function () {

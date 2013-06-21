@@ -46,6 +46,10 @@ hr {
     width: 480px;
 }
 
+.drag {
+    position: relative;
+}
+
 /*  -------------------------------
             MAIN BODY
     ------------------------------
@@ -125,6 +129,7 @@ hr {
 }
 
 .task {
+    position: relative;
     border-bottom: 1px solid #CCCCCC;
     width: 450px;
     padding-bottom: 10px;
@@ -151,6 +156,14 @@ hr {
     width: 360px;
     font-family: monospace;
     font-size: 22px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
 
 }
 
