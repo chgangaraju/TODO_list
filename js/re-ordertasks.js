@@ -7,10 +7,10 @@ var _oldZIndex = 0; // we temporarily increase the z-index during drag
 var _debug = $('debug'); // makes life easier
 var _drag = false;
 
-//InitDragDrop();
+InitDragDrop();
 
 function InitDragDrop() {
-    document.onmousedown = OnMouseDown;
+    //document.onmousedown = OnMouseDown;
     document.onmouseup = OnMouseUp;
 }
 
@@ -20,6 +20,33 @@ function OnMouseDown(e) {
         e = window.event;
         // IE uses srcElement, others use target
     var target = e.target != null ? e.target : e.srcElement;
+    var counter = 0;
+    // hack, drag item on clicking  anywhere on the list item.
+    if(target.className == "task_checkbox") {
+        return;
+    }
+    while(target.className != "task" && counter < 2) {
+        target = target.parentNode;
+        counter++;
+    }
+    if(target.className != "task") {
+        return;
+    }
+    startItemDrag(target,e);
+    _dragElement.style.left = _offsetX;
+    _dragElement.style.top = _offsetY;
+    createDummyItem(target);
+    _dragElement.className = "taskDragging task";
+    _drag = true;
+}
+function createDummyItem(target) {
+    var listItem = document.createElement("li"),
+        ul = target.parentNode;
+    listItem.id = "taskPlaceHolder";
+    ul.insertBefore(listItem,target);
+}
+
+function startItemDrag(target,e) {
     //_debug.innerHTML = target.className == 'task' ? 'draggable element clicked' : 'NON-draggable element clicked';
     // for IE, left click == 1
     // for Firefox, left click == 0
@@ -28,15 +55,22 @@ function OnMouseDown(e) {
         _startX = e.clientX;
         _startY = e.clientY;
         // grab the clicked element's position
-        _offsetX = ExtractNumber(target.style.left);
-        _offsetY = ExtractNumber(target.style.top);
+        //_offsetX = ExtractNumber(target.style.left);
+        //_offsetY = ExtractNumber(target.style.top);
+        var pos = getPosition(target);
+        _offsetX = pos.x;
+        _offsetY = pos.y;
         // bring the clicked element to the front while it is being dragged
         _oldZIndex = target.style.zIndex;
         target.style.zIndex = 10000;
         // we need to access the element in OnMouseMove
         _dragElement = target;
+        _dragElement.onmouseout = function() {
+
+        };
         // tell our code to start moving the element with the mouse
         document.onmousemove = OnMouseMove;
+
         // cancel out any text selections
         document.body.focus();
         // prevent text selection in IE
@@ -63,16 +97,53 @@ function OnMouseMove(e) {
 function OnMouseUp(e) {
     if (_dragElement != null) {
         _dragElement.style.zIndex = _oldZIndex;
+        // placing item appropriate place
+        var ul = _dragElement.parentNode,
+            placeHolder = $('taskPlaceHolder');
+        _dragElement.removeAttribute("style");
+        _dragElement.className = "task";
+        _dragElement.onmouseout = reOrderTasks;
+        ul.insertBefore(_dragElement, placeHolder);
         // we're done with these events until the next OnMouseDown
         document.onmousemove = null;
         document.onselectstart = null;
         _dragElement.ondragstart = null;
         // this is how we know we're not dragging
-        //_dragElement = null;
+        ul.removeChild(placeHolder);
+        _dragElement = null;
         _debug.innerHTML = 'mouse up';
-        _drag = true;
+        _drag = false;
     }
 }
+
+function reOrderTasks(e) {
+    if(!_drag) {
+        return;
+    }
+    var target = e.target != null ? e.target : e.srcElement;
+    if(target.className != "task") {
+        target = target.parentNode;
+    }
+    if(target.className != "task" || target.id == _dragElement.id) {
+        return;
+    }
+    var taskPlaceHolder = $('taskPlaceHolder'),
+        ul = taskPlaceHolder.parentNode,
+        targetTop = ExtractNumber(target.style.top);
+    // for moving above
+    if(targetTop < e.clientY) {
+        ul.insertBefore(taskPlaceHolder, target);
+    } else if(targetTop > e.clientY) {
+        ul.insertBefore(target,taskPlaceHolder);
+    }
+}
+function getPosition(element) {
+    for (var lx=0, ly=0;
+         element != null;
+         lx += element.offsetLeft, ly += element.offsetTop, element = element.offsetParent);
+    return {x: lx,y: ly};
+}
+
 function ExtractNumber(value) {
     var n = parseInt(value);
     return n == null || isNaN(n) ? 0 : n;
@@ -82,18 +153,4 @@ function $(id) {
     return document.getElementById(id);
 }
 
-function reOrderTasks(e) {
-    if(!_drag)
-    {
-        return;
-    }
-    var target = e.target != null ? e.target : e.srcElement;
-    var temp = target.parentNode;
-    var temp1 = _dragElement.parentNode;
-    target.parentNode = null;
-    temp1.appendChild(target);
-    _dragElement.parentNode = null;
-    temp.appendChild(_dragElement);
-    _drag = false;
-    _dragElement = null;
-}
+

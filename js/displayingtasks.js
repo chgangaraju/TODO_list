@@ -106,12 +106,12 @@ function createNewEditBox(id) {
  */
 function tasksReload() {
     "use strict"
-    var tasks_body = document.getElementById("tasks_body"),
+    var tasksList = document.getElementById("tasks_list"),
         tasksLeftLabel = document.getElementById("tasks_left_label"),
         tasksClearDiv = document.getElementById("tasks_remaining"),
         tasksCompletedLabel = document.getElementById("completed_items_label");
     // clearing output
-    tasks_body.innerHTML = "";
+    tasksList.innerHTML = "";
     tasksClearDiv.style.visibility = "hidden";
     checkAndMarkAllTasks();
     // initially i assuming that all tasks left i.e no tasks completed
@@ -132,23 +132,26 @@ function tasksReload() {
 
 function displayTask(id) {
     "use strict"
-    var tasksBody = document.getElementById("tasks_body"),
-        taskDiv = document.createElement("div"),
+    var tasksList = document.getElementById("tasks_list"),
+        taskListItem = document.createElement("li"),
         taskContainer = createNewDivContainer(id),
         taskEditContainer = createNewEditDiv(id);
 
-    taskDiv.className = "task";
-    taskDiv.id = "task_" + id;
+    taskListItem.className = "task";
+    taskListItem.id = "task_" + id;
 
-    taskDiv.onmousedown = OnMouseDown;
-    taskDiv.onmouseup = OnMouseUp;
-    taskDiv.onmouseover = reOrderTasks;
+    taskListItem.onmousedown = OnMouseDown;
+    taskListItem.onmouseout = function(event)  {
+        reOrderTasks(event);
+    }
+    // taskListItem.onmouseup = OnMouseUp;
+    // taskListItem.onmouseover = reOrderTasks;
 
-    taskDiv.appendChild(taskContainer);
-    taskDiv.appendChild(taskEditContainer);
-    taskDiv.ondblclick = function () {
+    taskListItem.appendChild(taskContainer);
+    taskListItem.appendChild(taskEditContainer);
+    taskListItem.ondblclick = function () {
         displayEditBox(id);
     }
-    tasksBody.appendChild(taskDiv);
+    tasksList.insertBefore(taskListItem, null);
 }
 
