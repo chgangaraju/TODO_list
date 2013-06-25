@@ -1,76 +1,104 @@
-var _startX = 0; // mouse starting positions
-var _startY = 0;
-var _offsetX = 0; // current element offset
-var _offsetY = 0;
-var _dragElement; // needs to be passed from OnMouseDown to OnMouseMove
-var _oldZIndex = 0; // we temporarily increase the z-index during drag
-var _debug = $('debug'); // makes life easier
-var _drag = false;
+var startX = 0; // mouse starting positions
+var startY = 0;
+var offsetX = 0; // current element offset
+var offsetY = 0;
+var dragElement; // needs to be passed from OnMouseDown to OnMouseMove
+var oldZIndex = 0; // we temporarily increase the z-index during drag
+//var _debug = $('debug'); // makes life easier
+var drag = false; // represents the item being dragged or not
+// variables for identifying click and double click events
+var click = false;
+var doubleClickWait = false;
+var clickTimer;
+var doubleClickTimer;
 
-InitDragDrop();
+document.onmouseup = OnMouseUp;
 
-function InitDragDrop() {
-    //document.onmousedown = OnMouseDown;
-    document.onmouseup = OnMouseUp;
+function createItemPlaceHolder(target) {
+    "use strict";
+    var listItem = document.createElement("li"),
+        ul = target.parentNode,
+        targetIndex = 0,
+        items = ul.getElementsByTagName("li"),
+        i = 0;
+    for (i = 0; i < items.length; i += 1) {
+        if (items[i].id === target.id) {
+            targetIndex = i;
+            break;
+        }
+    }
+    listItem.id = "taskPlaceHolder";
+    ul.insertBefore(listItem, items[targetIndex + 1]);
 }
 
 function OnMouseDown(e) {
+    "use strict";
     // IE is retarded and doesn't pass the event object
-    if (e == null)
+    if (e === null) {
         e = window.event;
-        // IE uses srcElement, others use target
+    }
+    // IE uses srcElement, others use target
     var target = e.target != null ? e.target : e.srcElement;
-    var counter = 0;
+    // separating double click events
+    if (doubleClickWait) {
+        clearTimeout(doubleClickTimer);
+        doubleClickWait = false;
+        click = false;
+        displayEditBox(target.id);
+        return;
+    }
+    // separating click events
+    clearTimeout(clickTimer);
+    click = true;
+    clickTimer = setTimeout(function () {
+        // if its a drag initiating item drag
+        doubleClickWait = false;
+        click = false;
+        dragStart(target, e);
+    }, 150);
+}
+function dragStart(target, e) {
+    "use strict";
+    // preventing drag and drop for check box and input text box
+    if (target.className === "task_checkbox" || target.className === "task_edit_textbox") {
+        return;
+    }
     // hack, drag item on clicking  anywhere on the list item.
-    if(target.className == "task_checkbox") {
-        return;
-    }
-    while(target.className != "task" && counter < 2) {
+    var counter = 0;
+    while (target.className !== "task" && counter < 2) {
         target = target.parentNode;
-        counter++;
+        counter += 1;
     }
-    if(target.className != "task") {
+    if (target.className !== "task") {
         return;
     }
-    startItemDrag(target,e);
-    _dragElement.style.left = _offsetX;
-    _dragElement.style.top = _offsetY;
-    createDummyItem(target);
-    _dragElement.className = "taskDragging task";
-    _drag = true;
+    initializeDrag(target, e);
+    createItemPlaceHolder(target);
+    drag = true;
 }
-function createDummyItem(target) {
-    var listItem = document.createElement("li"),
-        ul = target.parentNode;
-    listItem.id = "taskPlaceHolder";
-    ul.insertBefore(listItem,target);
-}
-
-function startItemDrag(target,e) {
-    //_debug.innerHTML = target.className == 'task' ? 'draggable element clicked' : 'NON-draggable element clicked';
-    // for IE, left click == 1
-    // for Firefox, left click == 0
-    if ((e.button == 1 && window.event != null || e.button == 0)) {
+function initializeDrag(target, e) {
+    "use strict";
+    // for IE, left click == 1,  Firefox, left click == 0
+    if (e.button === 1 || e.button === 0) {
         // grab the mouse position
-        _startX = e.clientX;
-        _startY = e.clientY;
+        startX = e.clientX;
+        startY = e.clientY;
         // grab the clicked element's position
-        //_offsetX = ExtractNumber(target.style.left);
-        //_offsetY = ExtractNumber(target.style.top);
         var pos = getPosition(target);
-        _offsetX = pos.x;
-        _offsetY = pos.y;
+        offsetX = pos.x;
+        offsetY = pos.y;
         // bring the clicked element to the front while it is being dragged
-        _oldZIndex = target.style.zIndex;
+        oldZIndex = target.style.zIndex;
         target.style.zIndex = 10000;
-        // we need to access the element in OnMouseMove
-        _dragElement = target;
-        _dragElement.onmouseout = function() {
-
+        target.style.left = offsetX;
+        target.style.top = offsetY;
+        target.className = "taskDragging task";
+        target.onmouseout = function () {
+            e.stopPropagation();
         };
-        // tell our code to start moving the element with the mouse
+        // we need to access the element in OnMouseMove
+        dragElement = target;
         document.onmousemove = OnMouseMove;
-
         // cancel out any text selections
         document.body.focus();
         // prevent text selection in IE
@@ -78,7 +106,7 @@ function startItemDrag(target,e) {
             return false;
         };
         // prevent IE from trying to drag an image
-        target.ondragstart = function() {
+        target.ondragstart = function () {
             return false;
         };
         // prevent text selection (except IE)
@@ -87,69 +115,93 @@ function startItemDrag(target,e) {
 }
 
 function OnMouseMove(e) {
-    if (e == null) var e = window.event;
+    "use strict";
+    if (e === null) {
+        e = window.event;
+    }
     // this is the actual "drag code"
-    _dragElement.style.left = (_offsetX + e.clientX - _startX) + 'px';
-    _dragElement.style.top = (_offsetY + e.clientY - _startY) + 'px';
-    _debug.innerHTML = '(' + _dragElement.style.left + ', ' + _dragElement.style.top + ')';
+    dragElement.style.left = (offsetX + e.clientX - startX) + 'px';
+    dragElement.style.top = (offsetY + e.clientY - startY) + 'px';
 }
 
 function OnMouseUp(e) {
-    if (_dragElement != null) {
-        _dragElement.style.zIndex = _oldZIndex;
-        // placing item appropriate place
-        var ul = _dragElement.parentNode,
-            placeHolder = $('taskPlaceHolder');
-        _dragElement.removeAttribute("style");
-        _dragElement.className = "task";
-        _dragElement.onmouseout = reOrderTasks;
-        ul.insertBefore(_dragElement, placeHolder);
-        // we're done with these events until the next OnMouseDown
-        document.onmousemove = null;
-        document.onselectstart = null;
-        _dragElement.ondragstart = null;
-        // this is how we know we're not dragging
-        ul.removeChild(placeHolder);
-        _dragElement = null;
-        _debug.innerHTML = 'mouse up';
-        _drag = false;
+    "use strict";
+    // checking for click events
+    if (click) {
+        clearTimeout(clickTimer);
+        doubleClickWait = true;
+        doubleClickTimer = setTimeout(function () {
+            click = false;
+            doubleClickWait = false;
+        }, 200);
+        return;
     }
+    if (dragElement != null) {
+        dragEnd();
+    }
+}
+function dragEnd() {
+    "use strict";
+    // placing item appropriate place
+    var ul = dragElement.parentNode,
+        placeHolder = $('taskPlaceHolder');
+    // setting default values
+    dragElement.style.zIndex = oldZIndex;
+    dragElement.removeAttribute("style");
+    dragElement.className = "task";
+    dragElement.onmouseout = reOrderTasks;
+    ul.insertBefore(dragElement, placeHolder);
+    // we're done with these events until the next OnMouseDown
+    document.onmousemove = null;
+    document.onselectstart = null;
+    dragElement.ondragstart = null;
+    // this is how we know we're not dragging
+    ul.removeChild(placeHolder);
+    dragElement = null;
+    drag = false;
 }
 
 function reOrderTasks(e) {
-    if(!_drag) {
+    "use strict";
+    if (!drag) {
         return;
     }
-    var target = e.target != null ? e.target : e.srcElement;
-    if(target.className != "task") {
-        target = target.parentNode;
-    }
-    if(target.className != "task" || target.id == _dragElement.id) {
+    var target = e.target !== null ? e.target : e.srcElement;
+    // checking the event trigger source
+    if (target.className !== "task" || target.id === dragElement.id) {
         return;
     }
     var taskPlaceHolder = $('taskPlaceHolder'),
         ul = taskPlaceHolder.parentNode,
-        targetTop = ExtractNumber(target.style.top);
+        targetTop = getPosition(target).y,
+        targetBottom = targetTop + extractNumber(target.style.height);
     // for moving above
-    if(targetTop < e.clientY) {
+    if (targetBottom < e.clientY) {
+        ul.insertBefore(target, taskPlaceHolder);
+    } else if (targetTop > e.clientY) {
         ul.insertBefore(taskPlaceHolder, target);
-    } else if(targetTop > e.clientY) {
-        ul.insertBefore(target,taskPlaceHolder);
     }
 }
-function getPosition(element) {
-    for (var lx=0, ly=0;
-         element != null;
-         lx += element.offsetLeft, ly += element.offsetTop, element = element.offsetParent);
-    return {x: lx,y: ly};
-}
 
-function ExtractNumber(value) {
-    var n = parseInt(value);
-    return n == null || isNaN(n) ? 0 : n;
+// helper functions
+function getPosition(element) {
+    "use strict";
+    var lx = 0,
+        ly = 0;
+    for (lx = 0, ly = 0; element !== null; element = element.offsetParent) {
+        lx += element.offsetLeft;
+        ly += element.offsetTop;
+    }
+
+    return {x: lx, y: ly};
 }
-// this is simply a shortcut for the eyes and fingers
+function extractNumber(value) {
+    "use strict";
+    var n = parseInt(value, 10);
+    return n === null || isNaN(n) ? 0 : n;
+}
 function $(id) {
+    "use strict";
     return document.getElementById(id);
 }
 

@@ -77,6 +77,13 @@ ul li
     margin-left: auto;
     margin-right: auto;
     width: 500px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #bodyBox:hover {
@@ -138,10 +145,20 @@ ul li
 /* =============== TASKS BODY =========================*/
 #tasks_body {
     width: 100%;
+
 }
 
 #tasks_list {
 
+}
+.transition {
+    position: absolute;
+
+    transition: all 1s easy-in;
+    -webkit-transition: all 1s easy-in;
+    -moz-transition: all 1s easy-in;
+    -o-transition: all 1s easy-in;
+    -ms-transition: all 1s easy-in;
 }
 
 .task {
@@ -152,7 +169,9 @@ ul li
     padding-left: 4px;
     padding-right: 4px;
     padding-top: 10px;
+    margin-bottom: 2px;
     background-color: #f5f5f5;
+
     /*-moz-transition-transition: all 1ms linear 0s;
     -webkit-transition: all 1ms linear 0s;*/
 }
@@ -160,8 +179,18 @@ ul li
     position:absolute;
     pointer-events:none;
 }
+@keyframes opening-sequence {
+    0% {
+        visibility: hidden;
+    }
+
+    100% {
+        visibility: visible;
+    }
+}
 #taskPlaceHolder {
     height: 50px;
+    margin-bottom: 2px;
     visibility: hidden;
 }
 
@@ -182,14 +211,7 @@ ul li
     width: 360px;
     font-family: monospace;
     font-size: 22px;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    cursor: default;
+    cursor: move;
 
 }
 

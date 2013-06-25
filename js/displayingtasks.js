@@ -4,7 +4,7 @@
  *  ------------------------------------------------------
  */
 function createNewDivContainer(id) {
-    "use strict"
+    "use strict";
     var taskObj = tasks[id],
         label = createNewLabel(id, taskObj.isDone, taskObj.task),
         checkBox = createNewCheckBox(id, taskObj.isDone),
@@ -25,7 +25,7 @@ function createNewDivContainer(id) {
     return taskContainer;
 }
 function createNewEditDiv(id) {
-    "use strict"
+    "use strict";
     var editTextBox = createNewEditBox(id),
         editContainer = document.createElement("div");
 
@@ -36,7 +36,7 @@ function createNewEditDiv(id) {
     return editContainer;
 }
 function createNewCheckBox(id, checked) {
-    "use strict"
+    "use strict";
     var checkBox = document.createElement("input");
     checkBox.type = "checkbox";
     checkBox.id = "task_checkbox_" + id;
