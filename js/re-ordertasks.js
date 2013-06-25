@@ -181,9 +181,28 @@ function reOrderTasks(e) {
     } else if (targetTop > e.clientY) {
         ul.insertBefore(taskPlaceHolder, target);
     }
+    swapArray(target);
 }
 
 // helper functions
+function swapArray(target) {
+    var sourceIndex = getArrayIndex(dragElement),
+        destinationIndex = getArrayIndex(target),
+        temp = tasks[sourceIndex];
+    tasks[sourceIndex] = tasks[destinationIndex];
+    tasks[destinationIndex] = temp;
+    target.id = 'task_' + sourceIndex;
+    dragElement.id = 'task_' + destinationIndex;
+}
+function getArrayIndex(element) {
+    var i = 0;
+    for(i = 0; i < tasks.length; i += 1) {
+        if( ("task_" + i) == element.id) {
+            return i;
+        }
+    }
+    return null;
+}
 function getPosition(element) {
     "use strict";
     var lx = 0,
