@@ -1,4 +1,4 @@
-var tasks = new Array();
+var tasks = todoApp.tasks;
 /**
  * -------------------------------------------
  * TASK MANIPULATION FUNCTIONS

@@ -12,6 +12,8 @@ var doubleClickWait = false;
 var clickTimer;
 var doubleClickTimer;
 
+var tasks = todoApp.tasks;
+
 document.onmouseup = OnMouseUp;
 
 function createItemPlaceHolder(target) {
@@ -178,21 +180,38 @@ function reOrderTasks(e) {
     // for moving above
     if (targetBottom < e.clientY) {
         ul.insertBefore(target, taskPlaceHolder);
+        swapArray(target, "up");
     } else if (targetTop > e.clientY) {
         ul.insertBefore(taskPlaceHolder, target);
+        swapArray(target, "down");
     }
-    swapArray(target);
 }
 
 // helper functions
-function swapArray(target) {
+function swapArray(target, swapType) {
     var sourceIndex = getArrayIndex(dragElement),
         destinationIndex = getArrayIndex(target),
         temp = tasks[sourceIndex];
+    switch(swapType) {
+        case "up":
+            if(extractId(target) < extractId(dragElement)) {
+                // terminating swap operation
+                return;
+            }
+        case "down":
+            if(extractId(target) > extractId(dragElement)) {
+                // terminating swap operation
+                return;
+            }
+    }
     tasks[sourceIndex] = tasks[destinationIndex];
     tasks[destinationIndex] = temp;
     target.id = 'task_' + sourceIndex;
     dragElement.id = 'task_' + destinationIndex;
+}
+function extractId(element) {
+    var parts = element.id.split("task_");
+    return Number(parts[1]);
 }
 function getArrayIndex(element) {
     var i = 0;
@@ -211,7 +230,6 @@ function getPosition(element) {
         lx += element.offsetLeft;
         ly += element.offsetTop;
     }
-
     return {x: lx, y: ly};
 }
 function extractNumber(value) {

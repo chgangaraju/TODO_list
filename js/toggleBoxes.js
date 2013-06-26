@@ -1,8 +1,5 @@
 // this variable for storing current edited box. to enable event handler
-var activeEditBox = {
-    isActive: false,
-    id: 0
-};
+var activeEditBox = todoApp.activeEditBox;
 
 /**
  * --------------------------------------------------------

@@ -3,12 +3,13 @@
  *  CREATION OF CHECKBOX, LABEL, CLEAR BUTTON AND EDIT BOX
  *  ------------------------------------------------------
  */
-function createNewDivContainer(id) {
+var tasks = todoApp.tasks;
+function createDivContainer(id) {
     "use strict";
     var taskObj = tasks[id],
-        label = createNewLabel(id, taskObj.isDone, taskObj.task),
-        checkBox = createNewCheckBox(id, taskObj.isDone),
-        button = createNewClearButton(id),
+        label = createLabel(id, taskObj.isDone, taskObj.task),
+        checkBox = createCheckBox(id, taskObj.isDone),
+        button = createClearButton(id),
         taskContainer = document.createElement("div");
 
     taskContainer.id = "task_container_" + id;
@@ -24,9 +25,9 @@ function createNewDivContainer(id) {
     }
     return taskContainer;
 }
-function createNewEditDiv(id) {
+function createEditDiv(id) {
     "use strict";
-    var editTextBox = createNewEditBox(id),
+    var editTextBox = createEditBox(id),
         editContainer = document.createElement("div");
 
     editContainer.id = "task_editbox_" + id;
@@ -35,7 +36,7 @@ function createNewEditDiv(id) {
 
     return editContainer;
 }
-function createNewCheckBox(id, checked) {
+function createCheckBox(id, checked) {
     "use strict";
     var checkBox = document.createElement("input");
     checkBox.type = "checkbox";
@@ -47,7 +48,7 @@ function createNewCheckBox(id, checked) {
     }
     return checkBox;
 }
-function createNewLabel(id, isDone, taskData) {
+function createLabel(id, isDone, taskData) {
     "use strict"
     var label = document.createElement("label");
     label.innerHTML = taskData;
@@ -60,7 +61,7 @@ function createNewLabel(id, isDone, taskData) {
     }
     return label;
 }
-function createNewClearButton(id) {
+function createClearButton(id) {
     "use strict"
     var button = document.createElement("a");
     button.href = "javascript:clearTask(" + id + ")";
@@ -70,7 +71,7 @@ function createNewClearButton(id) {
     button.style.visibility = "hidden";
     return button;
 }
-function createNewEditBox(id) {
+function createEditBox(id) {
     "use strict"
     var textBox = document.createElement("input");
     textBox.type = "text";
@@ -134,8 +135,8 @@ function displayTask(id) {
     "use strict"
     var tasksList = document.getElementById("tasks_list"),
         taskListItem = document.createElement("li"),
-        taskContainer = createNewDivContainer(id),
-        taskEditContainer = createNewEditDiv(id);
+        taskContainer = createDivContainer(id),
+        taskEditContainer = createEditDiv(id);
 
     taskListItem.className = "task";
     taskListItem.id = "task_" + id;
