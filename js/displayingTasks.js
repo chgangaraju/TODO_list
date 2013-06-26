@@ -4,6 +4,7 @@
  *  ------------------------------------------------------
  */
 var tasks = todoApp.tasks;
+var reOrderTasksInstance = ReOrderTasksModule.getInstance();
 function createDivContainer(id) {
     "use strict";
     var taskObj = tasks[id],
@@ -141,9 +142,9 @@ function displayTask(id) {
     taskListItem.className = "task";
     taskListItem.id = "task_" + id;
 
-    taskListItem.onmousedown = OnMouseDown;
+    taskListItem.onmousedown = reOrderTasksInstance.OnMouseDown;
     taskListItem.onmouseout = function(event)  {
-        reOrderTasks(event);
+        reOrderTasksInstance.reOrderTasks(event);
     }
     // taskListItem.onmouseup = OnMouseUp;
     // taskListItem.onmouseover = reOrderTasks;

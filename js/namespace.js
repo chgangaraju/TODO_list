@@ -11,5 +11,9 @@ var todoApp = {
     activeEditBox : {
         isActive: false,
         id: 0
+    },
+    ReOrderTasks: function() {
+        var instance = ReOrderTasksModule.getInstance();
+        return instance;
     }
 };
