@@ -3,157 +3,91 @@
  *  CREATION OF CHECKBOX, LABEL, CLEAR BUTTON AND EDIT BOX
  *  ------------------------------------------------------
  */
-var tasks = todoApp.tasks;
-var reOrderTasksInstance = ReOrderTasksModule.getInstance();
-function createDivContainer(id) {
-    "use strict";
-    var taskObj = tasks[id],
-        label = createLabel(id, taskObj.isDone, taskObj.task),
-        checkBox = createCheckBox(id, taskObj.isDone),
-        button = createClearButton(id),
-        taskContainer = document.createElement("div");
 
-    taskContainer.id = "task_container_" + id;
-    taskContainer.className = "task_container";
-    taskContainer.appendChild(checkBox);
-    taskContainer.appendChild(label);
-    taskContainer.appendChild(button);
-    taskContainer.onmouseover = function () {
-        taskMouseOver(id);
-    }
-    taskContainer.onmouseout = function () {
-        taskMouseOut(id);
-    }
-    return taskContainer;
-}
-function createEditDiv(id) {
-    "use strict";
-    var editTextBox = createEditBox(id),
-        editContainer = document.createElement("div");
+ var DisplayTasks = (function() {
+    var instance;
+    // singleton pattern
+    function init() {
+        // private data
+        var tasks = todoApp.tasks;
+        var reOrderTasksInstance = ReOrderTasksModule.getInstance();
+        var createElement = CreateElement.getInstance();
+        var tags = todoApp.tags;
 
-    editContainer.id = "task_editbox_" + id;
-    editContainer.className = "task_editbox";
-    editContainer.appendChild(editTextBox);
 
-    return editContainer;
-}
-function createCheckBox(id, checked) {
-    "use strict";
-    var checkBox = document.createElement("input");
-    checkBox.type = "checkbox";
-    checkBox.id = "task_checkbox_" + id;
-    checkBox.className = "task_checkbox";
-    checkBox.checked = checked;
-    checkBox.onclick = function () {
-        checkTask(id);
-    }
-    return checkBox;
-}
-function createLabel(id, isDone, taskData) {
-    "use strict"
-    var label = document.createElement("label");
-    label.innerHTML = taskData;
-    label.id = "task_label_" + id;
-
-    if (isDone) {
-        label.className = "task_label completed_task";
-    } else {
-        label.className = "task_label";
-    }
-    return label;
-}
-function createClearButton(id) {
-    "use strict"
-    var button = document.createElement("a");
-    button.href = "javascript:clearTask(" + id + ")";
-    button.className = "task_button";
-    button.id = "task_button_" + id;
-    button.innerHTML = "<img src='img/icon_delete.gif'> ";
-    button.style.visibility = "hidden";
-    return button;
-}
-function createEditBox(id) {
-    "use strict"
-    var textBox = document.createElement("input");
-    textBox.type = "text";
-    textBox.className = "task_edit_textbox";
-    textBox.id = "task_edit_textbox_" + id;
-    textBox.value = tasks[id].task;
-
-    textBox.onkeyup = function (e) {
-        if (( this.value.length < 1)) {
-            // disabling events for empty text box
-            activeEditBox.isActive = false;
-            return;
-        } else {
-            activeEditBox.isActive = true;
-        }
-        if (e.keyCode != 13) {
-            return;
-        }
-        updateTask(id);
-        hideEditBox(id);
-    }
-    // stop hiding edit box when click inside text box
-    textBox.onclick = function (e) {
-        e.stopPropagation();
-    }
-    return textBox;
-}
-
-/**
- * -------------------------------
- *       DISPLAYING TASKS
- * -------------------------------
- */
-function tasksReload() {
-    "use strict"
-    var tasksList = document.getElementById("tasks_list"),
-        tasksLeftLabel = document.getElementById("tasks_left_label"),
-        tasksClearDiv = document.getElementById("tasks_remaining"),
-        tasksCompletedLabel = document.getElementById("completed_items_label");
-    // clearing output
-    tasksList.innerHTML = "";
-    tasksClearDiv.style.visibility = "hidden";
-    checkAndMarkAllTasks();
-    // initially i assuming that all tasks left i.e no tasks completed
-    tasksLeftLabel.innerHTML = (tasks.length).toString();
-    tasksCompletedLabel.innerHTML = "0";
-    for (var id in tasks) {
-        displayTask(id);
-        if (tasks[id].isDone) {
-            incrementTaskCompletedCounter();
-            decrementTaskLeftCounter();
+        /**
+         * -------------------------------
+         *       DISPLAYING TASKS
+         * -------------------------------
+         */
+        function tasksReload() {
+            "use strict";
+            var tasksList = $(tags.taskUoList),
+                tasksLeftLabel = $(tags.tasksLeftLabel),
+                tasksClearDiv = $(tags.tasksClearDiv),
+                tasksCompletedLabel = $(tags.tasksCompletedLabel);
+            // clearing output
+            tasksList.innerHTML = "";
+            tasksClearDiv.style.visibility = "hidden";
+            TaskManipulation.toggleMarkAllTasks();
+            // initially i assuming that all tasks left i.e no tasks completed
+            tasksLeftLabel.innerHTML = (tasks.length).toString();
+            tasksCompletedLabel.innerHTML = "0";
+            for (var id in tasks) {
+                if(tasks.hasOwnProperty(id)) {
+                    displayTask(id);
+                    if (tasks[id].isDone) {
+                        HeaderFooterManipulation.incrementTaskCompletedCounter();
+                        HeaderFooterManipulation.decrementTaskLeftCounter();
+                    }
+                }
+            }
+            if (tasks.length < 1) {
+                HeaderFooterManipulation.toggleTaskHeaderFooter(true);
+            }
         }
 
+        function displayTask(id) {
+            "use strict";
+            var taskPrefix = todoApp.tagPrefix.taskDiv;
+            var tasksList = $(tags.taskUoList),
+                taskListItem = document.createElement("li"),
+                taskContainer = createElement.createDivContainer(id),
+                taskEditContainer = createElement.createEditDiv(id);
+
+            taskListItem.className = "task";
+            taskListItem.id = taskPrefix + id;
+
+            taskListItem.onmousedown = reOrderTasksInstance.OnMouseDown;
+            taskListItem.onmouseout = function(event)  {
+                reOrderTasksInstance.reOrderTasks(event);
+            };
+
+            taskListItem.appendChild(taskContainer);
+            taskListItem.appendChild(taskEditContainer);
+            taskListItem.ondblclick = function () {
+                ToggleEditBox.displayEditBox(id);
+            };
+            tasksList.insertBefore(taskListItem, null);
+        }
+        return {
+            // public functions
+            displayTask: function(id) {
+                return displayTask(id);
+            },
+            tasksReload: function() {
+                return tasksReload();
+            }
+        };
     }
-    if (tasks.length < 1) {
-        toggleTaskHeaderFooter(true);
-    }
-}
+    return {
+        getInstance: function() {
+            if(!instance) {
+                instance = init();
+            }
+            return instance;
+        }
+    };
 
-function displayTask(id) {
-    "use strict"
-    var tasksList = document.getElementById("tasks_list"),
-        taskListItem = document.createElement("li"),
-        taskContainer = createDivContainer(id),
-        taskEditContainer = createEditDiv(id);
 
-    taskListItem.className = "task";
-    taskListItem.id = "task_" + id;
-
-    taskListItem.onmousedown = reOrderTasksInstance.OnMouseDown;
-    taskListItem.onmouseout = function(event)  {
-        reOrderTasksInstance.reOrderTasks(event);
-    }
-    // taskListItem.onmouseup = OnMouseUp;
-    // taskListItem.onmouseover = reOrderTasks;
-
-    taskListItem.appendChild(taskContainer);
-    taskListItem.appendChild(taskEditContainer);
-    taskListItem.ondblclick = function () {
-        displayEditBox(id);
-    }
-    tasksList.insertBefore(taskListItem, null);
-}
-
+})();

@@ -130,7 +130,7 @@ var ReOrderTasksModule = (function () {
                 clearTimeout(doubleClickTimer);
                 doubleClickWait = false;
                 click = false;
-                displayEditBox(target.id);
+                ToggleEditBox.displayEditBox(extractId(target));
                 return;
             }
             // separating click events
@@ -221,8 +221,8 @@ var ReOrderTasksModule = (function () {
         }
 
         function extractId(element) {
-            var parts = element.id.split("task_");
-            return Number(parts[1]);
+            var parts = element.id.split("_");
+            return Number(parts[parts.length - 1]);
         }
 
         function getArrayIndex(element) {
@@ -252,11 +252,6 @@ var ReOrderTasksModule = (function () {
             return n === null || isNaN(n) ? 0 : n;
         }
 
-        function $(id) {
-            "use strict";
-            return document.getElementById(id);
-        }
-
         return {
             // public functions
             OnMouseDown: function (e) {
@@ -272,7 +267,7 @@ var ReOrderTasksModule = (function () {
                 return reOrderTasks(e);
             }
         };
-    };
+    }
     return {
         // Get the Singleton instance if one exists
         // or create one if it doesn't
