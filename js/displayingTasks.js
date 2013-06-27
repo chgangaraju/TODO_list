@@ -4,15 +4,18 @@
  *  ------------------------------------------------------
  */
 
- var DisplayTasks = (function() {
+ todoApp.DisplayTasks = (function() {
     var instance;
     // singleton pattern
     function init() {
         // private data
-        var tasks = todoApp.tasks;
-        var reOrderTasksInstance = ReOrderTasksModule.getInstance();
-        var createElement = CreateElement.getInstance();
-        var tags = todoApp.tags;
+        var tasks = todoApp.tasks,
+            reOrderTasksModule = todoApp.ReOrderTasksModule,
+            reOrderTasksInstance = reOrderTasksModule.getInstance(),
+            createElement = todoApp.CreateElement.getInstance(),
+            headerFooterManipulation = todoApp.HeaderFooterManipulation,
+            toggleEditBox = todoApp.ToggleEditBox,
+            tags = todoApp.tags;
 
 
         /**
@@ -22,14 +25,15 @@
          */
         function tasksReload() {
             "use strict";
-            var tasksList = $(tags.taskUoList),
+            var taskManipulation = todoApp.TaskManipulation,
+                tasksList = $(tags.taskUoList),
                 tasksLeftLabel = $(tags.tasksLeftLabel),
                 tasksClearDiv = $(tags.tasksClearDiv),
                 tasksCompletedLabel = $(tags.tasksCompletedLabel);
             // clearing output
             tasksList.innerHTML = "";
             tasksClearDiv.style.visibility = "hidden";
-            TaskManipulation.toggleMarkAllTasks();
+            taskManipulation.toggleMarkAllTasks();
             // initially i assuming that all tasks left i.e no tasks completed
             tasksLeftLabel.innerHTML = (tasks.length).toString();
             tasksCompletedLabel.innerHTML = "0";
@@ -37,13 +41,13 @@
                 if(tasks.hasOwnProperty(id)) {
                     displayTask(id);
                     if (tasks[id].isDone) {
-                        HeaderFooterManipulation.incrementTaskCompletedCounter();
-                        HeaderFooterManipulation.decrementTaskLeftCounter();
+                        headerFooterManipulation.incrementTaskCompletedCounter();
+                        headerFooterManipulation.decrementTaskLeftCounter();
                     }
                 }
             }
             if (tasks.length < 1) {
-                HeaderFooterManipulation.toggleTaskHeaderFooter(true);
+                headerFooterManipulation.toggleTaskHeaderFooter(true);
             }
         }
 
@@ -66,7 +70,7 @@
             taskListItem.appendChild(taskContainer);
             taskListItem.appendChild(taskEditContainer);
             taskListItem.ondblclick = function () {
-                ToggleEditBox.displayEditBox(id);
+                toggleEditBox.displayEditBox(id);
             };
             tasksList.insertBefore(taskListItem, null);
         }

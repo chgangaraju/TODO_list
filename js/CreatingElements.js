@@ -10,7 +10,7 @@
  * HIDING AND UN HIDING CLEAR TASK BUTTON ON MOUSE EVENTS
  * -------------------------------------------------------
  */
-var CreateElement = (function() {
+todoApp.CreateElement = (function() {
     var instance,
         activeEditBox = todoApp.activeEditBox;
 
@@ -83,8 +83,8 @@ var CreateElement = (function() {
                 if (e.keyCode != 13) {
                     return;
                 }
-                ToggleEditBox.updateTask(id);
-                ToggleEditBox.hideEditBox(id);
+                todoApp.ToggleEditBox.updateTask(id);
+                todoApp.ToggleEditBox.hideEditBox(id);
             };
             // stop hiding edit box when click inside text box
             textBox.onmousedown = function(e) {

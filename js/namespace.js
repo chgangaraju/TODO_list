@@ -32,7 +32,13 @@ var todoApp = {
     activeEditBox : {
         isActive: false,
         id: 0
-    }
+    },
+    CreateElement: {},
+    DisplayTasks: {},
+    HeaderFooterManipulation: {},
+    ReOrderTasksModule: {},
+    TaskManipulation: {},
+    ToggleEditBox: {}
 };
 
 function $(id) {
@@ -41,25 +47,25 @@ function $(id) {
 }
 function createTask(e) {
     "use strict";
-    TaskManipulation.createTask(e);
+    todoApp.TaskManipulation.createTask(e);
 }
 function checkTask(id) {
     "use strict";
-    TaskManipulation.checkTask(id);
+    todoApp.TaskManipulation.checkTask(id);
 }
 function checkAllTasks() {
     "use strict";
-    TaskManipulation.checkAllTasks();
+    todoApp.TaskManipulation.checkAllTasks();
 }
 function clearTask(id) {
     "use strict";
-    TaskManipulation.clearTask(id);
+    todoApp.TaskManipulation.clearTask(id);
 }
 function clearAllCompletedItems() {
     "use strict";
-    TaskManipulation.clearAllCompletedItems();
+    todoApp.TaskManipulation.clearAllCompletedItems();
 }
 function hideEditBoxIfActive()  {
     "use strict";
-    ToggleEditBox.hideEditBoxIfActive();
+    todoApp.ToggleEditBox.hideEditBoxIfActive();
 }

@@ -1,4 +1,4 @@
-var ReOrderTasksModule = (function () {
+todoApp.ReOrderTasksModule = (function () {
     var instance;
 
     function init() {
@@ -130,7 +130,7 @@ var ReOrderTasksModule = (function () {
                 clearTimeout(doubleClickTimer);
                 doubleClickWait = false;
                 click = false;
-                ToggleEditBox.displayEditBox(extractId(target));
+                todoApp.ToggleEditBox.displayEditBox(extractId(target));
                 return;
             }
             // separating click events

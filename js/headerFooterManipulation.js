@@ -3,7 +3,7 @@
  * UPDATING AND TOGGLE HEADER AND FOOTER VALUES
  * ------------------------------------------------------
  */
-var HeaderFooterManipulation = function() {
+todoApp.HeaderFooterManipulation = function() {
     var tags = todoApp.tags;
     function toggleTaskHeaderFooter(hidden) {
         "use strict";

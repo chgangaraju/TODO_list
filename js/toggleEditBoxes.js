@@ -1,4 +1,4 @@
-var ToggleEditBox = function() {
+todoApp.ToggleEditBox = function() {
     // this variable for storing current edited box. to enable event handler
     var activeEditBox = todoApp.activeEditBox;
     var tagPrefix = todoApp.tagPrefix;

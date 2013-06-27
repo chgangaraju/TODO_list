@@ -1,10 +1,11 @@
 // modular pattern
-var TaskManipulation = function () {
+todoApp.TaskManipulation = function () {
 
-    var displayTasks = DisplayTasks.getInstance(),
+    var displayTasks = todoApp.DisplayTasks.getInstance(),
         tags = todoApp.tags,
         tagPrefix = todoApp.tagPrefix,
-        tasks = todoApp.tasks;
+        tasks = todoApp.tasks,
+        headerFooterManipulation = todoApp.HeaderFooterManipulation;
 
     function createTask(e) {
         "use strict";
@@ -19,8 +20,8 @@ var TaskManipulation = function () {
         tasks.push(taskObject);
         displayTasks.displayTask(tasks.length - 1);
         inputBox.value = "";
-        HeaderFooterManipulation.incrementTaskLeftCounter();
-        HeaderFooterManipulation.toggleTaskHeaderFooter(false);
+        headerFooterManipulation.incrementTaskLeftCounter();
+        headerFooterManipulation.toggleTaskHeaderFooter(false);
         toggleMarkAllTasks();
     }
 
@@ -59,16 +60,16 @@ var TaskManipulation = function () {
             taskLabel.className = "task_label completed_task";
             toggleMarkAllTasks();
             // updating counters
-            HeaderFooterManipulation.incrementTaskCompletedCounter();
-            HeaderFooterManipulation.decrementTaskLeftCounter();
+            headerFooterManipulation.incrementTaskCompletedCounter();
+            headerFooterManipulation.decrementTaskLeftCounter();
         } else {
             tasks[id].isDone = false;
             taskLabel.className = "task_label";
             //simply un checking mark all button
             checkAllBox.checked = false;
             // updating counters
-            HeaderFooterManipulation.incrementTaskLeftCounter();
-            HeaderFooterManipulation.decrementTaskCompletedCounter();
+            headerFooterManipulation.incrementTaskLeftCounter();
+            headerFooterManipulation.decrementTaskCompletedCounter();
         }
     }
 
