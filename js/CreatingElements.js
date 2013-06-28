@@ -11,12 +11,12 @@
  * -------------------------------------------------------
  */
 todoApp.CreateElement = (function() {
-    var instance,
-        activeEditBox = todoApp.activeEditBox;
+    var instance;
 
     function init() {
-        var tagPrefix = todoApp.tagPrefix;
-        var tasks = todoApp.tasks;
+        var tagPrefix = todoApp.tagPrefix,
+            tasks = todoApp.tasks,
+            activeEditBox = todoApp.activeEditBox;
         function taskMouseOver(id) {
             "use strict";
             var taskButtonId = tagPrefix.taskClearButton + id,
